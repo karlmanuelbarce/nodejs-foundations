@@ -36,4 +36,33 @@ router.post('/', async (req, res, next) => {
     }
 });
 
+router.put('/:id', async (req, res, next) => {
+    try {
+        const { title, content, tag } = req.body;
+        if (!title || !content) return res.status(400).json({ error: 'title and content are required' });
+        const note = await prisma.note.findUnique({ where: { id: parseInt(req.params.id) } });
+        if (!note) return res.status(404).json({ error: 'Note not found' });
+        const updated = await prisma.note.update({
+            where: { id: parseInt(req.params.id) },
+            data: { title, content, tag }
+        });
+        res.status(200).json(updated);
+    } catch (err) {
+        next(err);
+    }
+});
+
+router.delete('/:id', async (req, res, next) => {
+    try {
+        const note = await prisma.note.findUnique({ where: { id: parseInt(req.params.id) } });
+        if (!note) return res.status(404).json({ error: 'Note not found' });
+        await prisma.note.delete({
+            where: { id: parseInt(req.params.id) }
+        });
+        res.status(204).send();
+    } catch (err) {
+        next(err);
+    }
+});
+
 module.exports = router;
