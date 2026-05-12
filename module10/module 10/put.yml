@@ -1,0 +1,22 @@
+info:
+  name: put
+  type: http
+  seq: 4
+
+http:
+  method: PUT
+  url: http://localhost:3000/notes/2
+  body:
+    type: json
+    data: |-
+      {
+        "title": "Hello World",
+        "content": "test"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -1,0 +1,6 @@
+# .gitignore
+node_modules/
+/generated/prisma
+/.env
+/coverage
+/*.db
